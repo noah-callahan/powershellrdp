@@ -1,4 +1,4 @@
-$userList = Import-Csv -Path 'C:\Users\administrator.HAGLEY\Documents\Guide Email List.csv'
+$userList = Import-Csv -Path 'C:\Users\administrator\Documents\Guide Email List.csv'
 
 $userCount = $userList | Measure-Object
 
@@ -31,11 +31,11 @@ while($count -le ($userCount.Count - 1)){
 
         $plainpass = Generate-Password($accountName) 
 
-        "{0},{1},{2},{3}" -f "$fname $lname","$accountname","$accountname@hagley.org","$plainpass" | add-content -path C:\Users\administrator.HAGLEY\Documents\tempuserlistfinal.csv
+        "{0},{1},{2},{3}" -f "$fname $lname","$accountname","$accountname@removedforsec.org","$plainpass" | add-content -path C:\Users\administrator\Documents\tempuserlistfinal.csv
 
         $pass = ConvertTo-SecureString $plainpass –asplaintext –force 
 
-        New-ADUser -Name "$fname $lname" -SamAccountName $accountName -AccountPassword $pass -DisplayName "$fname $lname" -Enabled $True -GivenName $fname -Surname $lname -UserPrincipalName "$accountName@Hagley.org" -Path "OU=PartTime,OU=Hagley Users,DC=Hagley,DC=org"
+        New-ADUser -Name "$fname $lname" -SamAccountName $accountName -AccountPassword $pass -DisplayName "$fname $lname" -Enabled $True -GivenName $fname -Surname $lname -UserPrincipalName "$accountName@@removedforsec.org" -Path "OU=PartTime,OU=Security Users,DC=Security,DC=org"
 
         
     
@@ -52,7 +52,7 @@ while($count -le ($userCount.Count - 1)){
 
 #Location and licensing
 
-$userList = Import-Csv -Path 'C:\Users\administrator.HAGLEY\Documents\tempuserlistfinal.csv'
+$userList = Import-Csv -Path 'C:\Users\administrator\Documents\tempuserlistfinal.csv'
 
 Connect-AzureAD -Credential $o365Creds
 
@@ -70,7 +70,7 @@ while($count -le ($userCount.Count - 1)){
 
         $uname = $userList[$count].Username
     
-        $NewADUser = Get-AzureADUser -ObjectId "$uname@Hagley.org" 
+        $NewADUser = Get-AzureADUser -ObjectId "$uname@removedforsec.org" 
 
         #Set-AzureADUser -ObjectId $NewADUser.ObjectId -UsageLocation US
 
