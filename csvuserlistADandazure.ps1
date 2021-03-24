@@ -56,7 +56,7 @@ $userList = Import-Csv -Path 'C:\Users\administrator.HAGLEY\Documents\tempuserli
 
 Connect-AzureAD -Credential $o365Creds
 
-$LicensedUser = Get-AzureADUser -ObjectId "ptemplate@Hagley.org"
+#$LicensedUser = Get-AzureADUser -ObjectId "  "
 $License = New-Object -TypeName Microsoft.Open.AzureAD.Model.AssignedLicense 
 $License.SkuId = $LicensedUser.AssignedLicenses.SkuId 
 $Licenses = New-Object -TypeName Microsoft.Open.AzureAD.Model.AssignedLicenses 
