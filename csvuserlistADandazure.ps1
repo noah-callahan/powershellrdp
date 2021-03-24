@@ -77,7 +77,7 @@ while($count -le ($userCount.Count - 1)){
         Set-AzureADUserLicense -ObjectId $NewADUser.ObjectId -AssignedLicenses $Licenses
 
 
-        $count++
+     
 
         Write-Output "$uname OK"
     
