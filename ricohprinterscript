@@ -1,0 +1,30 @@
+#revert
+
+#Remove-Printer -Name "Ricoh in NOC"
+
+#Remove-PrinterPort -Name "TestRicohTCPPort"
+
+#Remove-PrinterDriver -Name "PCL6 V4 Driver for Universal Print"
+
+#PNPUtil.exe /delete-driver "oem20.inf"
+ 
+#revert
+
+
+PNPUtil.exe /add-driver "$($PSScriptRoot)\disk1\r4600.inf"
+
+Get-WindowsDriver -All -Online | Where-Object {$_.OriginalFileName -like '*r4600.inf'} | Select-Object -ExpandProperty OriginalFileName -OutVariable infPath
+
+#Get-Content -Path $infPath
+
+Add-PrinterDriver -Name "PCL6 V4 Driver for Universal Print" -InfPath $infPath
+
+Add-PrinterPort -Name "TestRicohTCPPort" -PrinterHostAddress "192.168.32.241"
+
+Add-Printer -Name "Ricoh in NOC" -DriverName "PCL6 V4 Driver for Universal Print" -PortName "TestRicohTCPPort"
+
+$PrinterInstance = [wmi]"\\.\root\cimv2:Win32_Printer.DeviceID='Ricoh in Noc'"
+
+$PrinterInstance.PrintTestPage()
+
+Read-Host
